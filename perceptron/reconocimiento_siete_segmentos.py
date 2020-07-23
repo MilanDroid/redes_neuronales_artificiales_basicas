@@ -20,7 +20,6 @@ __version__ = "0.0.1"
 
 import numpy as np
 import random as random
-#import matplotlib.pyplot as plt
 
 # Una matriz que representa el estado de los segmenteos
 # para representar cada numero
@@ -98,12 +97,6 @@ def hardlim(valor):
         respuesta = 1
 
     return respuesta
-
-def graficar(x, y):    
-    plt.plot([x, y])
-    plt.draw()
-    plt.pause(0.0001)
-    plt.clf()
 
 # Entrenamiento; aqui se ejecuta el proceso de ajustar los pesos
 print('------------------------------ INICIO DE ENTRENAMIENTO --------------------------------')
