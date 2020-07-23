@@ -20,7 +20,6 @@ __version__ = "0.0.1"
 
 import numpy as np
 import random as random
-import matplotlib.pyplot as plt
 
 # Una matriz que representa el estado de los segmenteos
 # para representar cada numero
