@@ -23,7 +23,7 @@ import random as random
 
 # Una matriz que representa el estado de los segmenteos
 # para representar cada numero
-#   ____
+# 
 #  |   |
 #  ----
 # |   |
@@ -55,7 +55,7 @@ respuestaMayorQueCinco = [0, 0, 0, 0, 0, 0, 1, 1, 1, 1]
 # tprimo
 respuestaPrimos = [0, 0, 1, 1, 0, 1, 0, 1, 0, 0]
 # Prueba; aqui se asigna cual es la respuesta que probaremos
-respuestaEsperada = respuestaMayorQueCinco[:]
+respuestaEsperada = respuestaPar[:]
 
 # Peso sinaptico
 # La funcion np.random.rand(n, m) retorna una matriz de n x m
@@ -98,12 +98,6 @@ def hardlim(valor):
 
     return respuesta
 
-def graficar(x, y):    
-    plt.plot([x, y])
-    plt.draw()
-    plt.pause(0.0001)
-    plt.clf()
-
 # Entrenamiento; aqui se ejecuta el proceso de ajustar los pesos
 print('------------------------------ INICIO DE ENTRENAMIENTO --------------------------------')
 imprimirValores()
@@ -111,11 +105,11 @@ imprimirValores()
 # Cambiar el limite superior en la funcion range(cantidad + 1)
 # por la cantidad de epocas que se desean hacer. Tener en cuenta que la cantidad de epocas
 # sera cantidad - 1; por ello el '+1' en la funcion
-for epoca in range(1, 500 + 1):
+for epoca in range(1, 10 + 1):
     #Decomentar estas lineas para ver el progreso de las epocas
-    # print('-' * 40)
-    # print('-' * 40)
-    # print('Epoca: ', epoca)
+    print('-' * 40)
+    print('-' * 40)
+    print('Epoca: ', epoca)
 
     # Por cada patron hacemos una iteracion que van desde 1, hasta n;
     # donde 'n' es la cantidad de patrones disponibles
@@ -130,9 +124,9 @@ for epoca in range(1, 500 + 1):
 
 
         # Descomentar para ver el progreso de la red
-        # print('*' * 20)
-        # print('Digito: ', q)
-        # imprimirValores()
+        print('*' * 20)
+        print('Digito: ', q)
+        imprimirValores()
 print('------------------------------ FIN DE ENTRENAMIENTO --------------------------------')
 imprimirValores()
 
