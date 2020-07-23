@@ -1,0 +1,3 @@
+- Implementar codigo de perceptron, hecho
+- Buscar funcionamiento de hardlim, hecho
+- Graficar, vector de errores
