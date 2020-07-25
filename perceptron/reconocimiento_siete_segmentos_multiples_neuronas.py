@@ -2,7 +2,8 @@
 
 # IA 2020 II PAC, Tarea.
 # Redes Neuronales Artificiales básicas para Reconocimiento de Patrones
-# Perceptron, reconocimiento de numeros en 7 segmentos
+# Perceptron, reconocimiento de numeros en 7 segmentos,
+# Multiples neuronas
 
 # Video de referencia por Hackeando Tec
 # https://www.youtube.com/watch?v=wOWmsDqYx5E
@@ -15,7 +16,7 @@
 # pip install numpy
 
 # Project version
-__version__ = "0.0.1"
+__version__ = "0.1.1"
 
 
 import numpy as np
@@ -47,15 +48,15 @@ patrones = len(numbers)
 # Obtenemos la transpuesta de la matriz
 # numbers = np.array(numbers).T
 
-# El vector de salida esperado para el Caso I ( numeros pares)
-# tpar
-respuestaPar = [1, 0, 1, 0, 1, 0, 1, 0, 1, 0]
-# tmay5
-respuestaMayorQueCinco = [0, 0, 0, 0, 0, 0, 1, 1, 1, 1]
-# tprimo
-respuestaPrimos = [0, 0, 1, 1, 0, 1, 0, 1, 0, 0]
-# Prueba; aqui se asigna cual es la respuesta que probaremos
-respuestaEsperada = respuestaPar[:]
+# Los vectores de salida esperados
+respuestaEsperada = [
+    # tpar
+    [1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+    # tmay5
+    [0, 0, 0, 0, 0, 0, 1, 1, 1, 1],
+    # tprimo
+    [0, 0, 1, 1, 0, 1, 0, 1, 0, 0]
+]
 
 # Peso sinaptico
 # La funcion np.random.rand(n, m) retorna una matriz de n x m
@@ -64,74 +65,85 @@ respuestaEsperada = respuestaPar[:]
 # ya que necesitamos valores entre -1 y 1
 # de modo que si el elemento es 1; entonces 1 * 2 = 2; 2 - 1 = 1
 # si el elemento es 0; entonces 0 * 2 = 0; 0 - 1 = -1 
-# Para este caso obtenemos una matriz 1 x 7
-W = 2 * np.random.rand(1, 7) - 1
+# Para este caso obtenemos una matriz 3 x 7
+W = 2 * np.random.rand(3, 7) - 1
 # Polarizacion
-# Obtenemos un vector de 1 x 1 con un valor
+# Obtenemos una matriz de 3 x 1 con valores
 # entre -1 y 1
-b = 2 * np.random.rand(1) - 1
+b = 2 * np.random.rand(3, 1) - 1
 
 # Matriz de errores
 # Creamos una matriz de errores vacia la cual sera de 1 x m;
 # donde 'm' es la cantidad de patrones a evaluar.
 # Para este caso obtenemos una matrix de 1 x 10,
 # obtenemos la transpuesta ya que necesitamos que sea 10 x 1
-errores = np.array( [None] * patrones ).T
+errores = [
+    np.array( [None] * patrones ).T,
+    np.array( [None] * patrones ).T,
+    np.array( [None] * patrones ).T
+]
 
 # Imprimir datos actuales
 def imprimirValores():
     print('Errores: ', np.array(errores).T)
+    print('Respuesta esperada: ', respuestaEsperada)
     print('Pesos: ', W)
     print('Polarizacion: ', b)
+
+# Funcion de activacion
+def hardlim(valor):
+    respuesta = 0
+    if valor >= 0:
+        respuesta = 1
+    return respuesta
 
 # Procesar valores
 def procesar(peso, patron, polarizacion):
     respuesta = np.dot(peso, patron) + polarizacion
     return respuesta
 
-# Funcion de activacion
-def hardlim(valor):
-    respuesta = 0
+def neurona(digito, tarea):
+    transpuesta = np.array(numbers[digito]).T
+    resultado = procesar(W[tarea], transpuesta, b[tarea])
 
-    if valor >= 0:
-        respuesta = 1
+    # print('Error: ', errores[tarea][digito])
+    # print('Peso: ', W[tarea])
+    # print('Polarizacion: ', b[tarea])
 
-    return respuesta
+    errores[tarea][digito] = respuestaEsperada[tarea][digito] - hardlim(resultado)
+    W[tarea] = W[tarea] + (errores[tarea][digito] * transpuesta)
+    b[tarea] = b[tarea] + errores[tarea][digito]
 
-# Entrenamiento; aqui se ejecuta el proceso de ajustar los pesos
+
+# Imprimiendo valores de prueba
+# for i in range(0, len(errores) ):
+#     print('Indice ', i, ': ', errores[i])
+
+# Entrenamiento
 print('------------------------------ INICIO DE ENTRENAMIENTO --------------------------------')
 imprimirValores()
+
 # Epocas
-# Cambiar el limite superior en la funcion range(cantidad + 1)
-# por la cantidad de epocas que se desean hacer. Tener en cuenta que la cantidad de epocas
-# sera cantidad - 1; por ello el '+1' en la funcion
-for epoca in range(1, 100 + 1):
-    #Decomentar estas lineas para ver el progreso de las epocas
+# Cambiar 'cantidad' para alargar o acortar el entrenamniento
+# cada iteracion es una epoca
+# range(n) no incluye el limite superior, por ello se suma '1',
+# quedando range(n + 1)
+for epoca in range(200 + 1):
+    # Decomentar estas lineas para ver el progreso de las epocas
     # print('-' * 40)
     # print('-' * 40)
     # print('Epoca: ', epoca)
 
-    # Por cada patron hacemos una iteracion que van desde 1, hasta n;
+    # Por cada patron de digito (0-9) hacemos una iteracion que van desde 0, hasta n;
     # donde 'n' es la cantidad de patrones disponibles
     for q in range(0, patrones):
-        # Se recibe un patron de la forma 1 x n
-        # con la transpuesta conseguimos la forma n x 1 o segmentos x digito
-        transpuesta = np.array(numbers[q]).T
-        respuesta = procesar(W, transpuesta, b)
-        errores[q] = respuestaEsperada[q] - hardlim(respuesta)
-        W = W + (errores[q] * transpuesta)
-        b = b + errores[q]
+        for i in range(0, len(respuestaEsperada)):
+            neurona(q, i)
 
-
-        # Descomentar para ver el progreso de la red
-        # print('*' * 20)
-        # print('Digito: ', q)
-        # imprimirValores()
+            # Descomentar para ver el progreso de la red
+            # print('*' * 20)
+            # print('Digito: ', q)
+            # print('Tarea: ', i)
+            # imprimirValores()
 print('------------------------------ FIN DE ENTRENAMIENTO --------------------------------')
 imprimirValores()
-
-# Para cambiar entre los tipos de validaciones cambiar el valor en la linea 59
-# por cualquiera de estas opciones:
-# 1- respuestaEsperada = respuestaPar[:]
-# 2- respuestaEsperada = respuestaMayorQueCinco[:]
-# 3- respuestaEsperada = respuestaPrimos[:]
