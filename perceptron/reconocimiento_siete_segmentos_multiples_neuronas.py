@@ -21,6 +21,7 @@ __version__ = "0.1.1"
 
 import numpy as np
 import random as random
+import matplotlib.pyplot as plt
 
 # Una matriz que representa el estado de los segmenteos
 # para representar cada numero
@@ -86,7 +87,7 @@ errores = [
 # Imprimir datos actuales
 def imprimirValores():
     print('Errores: ', np.array(errores).T)
-    print('Respuesta esperada: ', respuestaEsperada)
+    # print('Respuesta esperada: ', respuestaEsperada)
     print('Pesos: ', W)
     print('Polarizacion: ', b)
 
@@ -113,6 +114,51 @@ def neurona(digito, tarea):
     errores[tarea][digito] = respuestaEsperada[tarea][digito] - hardlim(resultado)
     W[tarea] = W[tarea] + (errores[tarea][digito] * transpuesta)
     b[tarea] = b[tarea] + errores[tarea][digito]
+
+# Comprobamos que el resultado es correcto
+# con la sumatoria de multiplicar el valor de cada segmento por su peso
+# y sumar la polarizacion o 'bias'
+def comprobacion():
+    resultados = [
+        np.array( [None] * patrones ),
+        np.array( [None] * patrones ),
+        np.array( [None] * patrones )
+    ]
+    
+    for q in range(0, patrones):
+        for i in range(0, len(W) ):
+            resultados[i][q] = W[i][0] * numbers[q][0]
+            resultados[i][q] = resultados[i][q] + W[i][1] * numbers[q][1]
+            resultados[i][q] = resultados[i][q] + W[i][2] * numbers[q][2]
+            resultados[i][q] = resultados[i][q] + W[i][3] * numbers[q][3]
+            resultados[i][q] = resultados[i][q] + W[i][4] * numbers[q][4]
+            resultados[i][q] = resultados[i][q] + W[i][5] * numbers[q][5]
+            resultados[i][q] = resultados[i][q] + W[i][6] * numbers[q][6]
+            resultados[i][q] = resultados[i][q] + b[i]
+
+            resultados[i][q] = hardlim(resultados[i][q])
+    print('Comprobacion: ')
+    print(resultados[0])
+    print(resultados[1])
+    print(resultados[2])
+
+
+# def graficar():
+#     line = np.linspace(0, 9, 100)
+#     for q in range(0, patrones):
+#         plt.plot(q, numbers[q][0]*0.1, 'bo') # a
+#         plt.plot(q, numbers[q][1]*0.2, 'gD') # b
+#         plt.plot(q, numbers[q][2]*0.3, 'r*') # c
+#         plt.plot(q, numbers[q][3]*0.4, 'cs') # d
+#         plt.plot(q, numbers[q][4]*0.5, 'm>') # e
+#         plt.plot(q, numbers[q][5]*0.6, 'y1') # f
+#         plt.plot(q, numbers[q][6]*0.7, 'k2') # g
+
+#     # plt.plot(line, -b[1]/W[1])    
+#     plt.xlabel('Digito')
+#     plt.ylabel('Segmentos')
+#     plt.title('Numeros pares')
+#     plt.show()
 
 
 # Imprimiendo valores de prueba
@@ -147,3 +193,5 @@ for epoca in range(200 + 1):
             # imprimirValores()
 print('------------------------------ FIN DE ENTRENAMIENTO --------------------------------')
 imprimirValores()
+comprobacion()
+# graficar()
