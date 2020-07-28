@@ -76,8 +76,8 @@ b = 2 * np.random.rand(3, 1) - 1
 # Matriz de errores
 # Creamos una matriz de errores vacia la cual sera de 1 x m;
 # donde 'm' es la cantidad de patrones a evaluar.
-# Para este caso obtenemos una matrix de 1 x 10,
-# obtenemos la transpuesta ya que necesitamos que sea 10 x 1
+# Para este caso obtenemos una matrix de 3 x 10,
+# obtenemos la transpuesta ya que necesitamos que sea 10 x 3
 errores = [
     np.array( [None] * patrones ).T,
     np.array( [None] * patrones ).T,
