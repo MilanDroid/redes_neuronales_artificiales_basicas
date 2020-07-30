@@ -1,6 +1,6 @@
 #! python
 
-# IA 2020 II PAC, Tarea II.
+# IA 2020 II PAC, Tarea.
 # Redes Neuronales Artificiales básicas para Reconocimiento de Patrones
 # Perceptron, reconocimiento de numeros en 7 segmentos,
 # Multiples neuronas
@@ -76,8 +76,8 @@ b = 2 * np.random.rand(3, 1) - 1
 # Matriz de errores
 # Creamos una matriz de errores vacia la cual sera de 1 x m;
 # donde 'm' es la cantidad de patrones a evaluar.
-# Para este caso obtenemos una matrix de 1 x 10,
-# obtenemos la transpuesta ya que necesitamos que sea 10 x 1
+# Para este caso obtenemos una matrix de 3 x 10,
+# obtenemos la transpuesta ya que necesitamos que sea 10 x 3
 errores = [
     np.array( [None] * patrones ).T,
     np.array( [None] * patrones ).T,
@@ -143,22 +143,22 @@ def comprobacion():
     print(resultados[2])
 
 
-def graficar():
-    line = np.linspace(0, 9, 100)
-    for q in range(0, patrones):
-        plt.plot(q, numbers[q][0]*0.1, 'bo') # a
-        plt.plot(q, numbers[q][1]*0.2, 'gD') # b
-        plt.plot(q, numbers[q][2]*0.3, 'r*') # c
-        plt.plot(q, numbers[q][3]*0.4, 'cs') # d
-        plt.plot(q, numbers[q][4]*0.5, 'm>') # e
-        plt.plot(q, numbers[q][5]*0.6, 'y1') # f
-        plt.plot(q, numbers[q][6]*0.7, 'k2') # g
+# def graficar():
+#     line = np.linspace(0, 9, 100)
+#     for q in range(0, patrones):
+#         plt.plot(q, numbers[q][0]*0.1, 'bo') # a
+#         plt.plot(q, numbers[q][1]*0.2, 'gD') # b
+#         plt.plot(q, numbers[q][2]*0.3, 'r*') # c
+#         plt.plot(q, numbers[q][3]*0.4, 'cs') # d
+#         plt.plot(q, numbers[q][4]*0.5, 'm>') # e
+#         plt.plot(q, numbers[q][5]*0.6, 'y1') # f
+#         plt.plot(q, numbers[q][6]*0.7, 'k2') # g
 
-    # plt.plot(line, -b[1]/W[1])    
-    plt.xlabel('Digito')
-    plt.ylabel('Segmentos')
-    plt.title('Numeros pares')
-    plt.show()
+#     # plt.plot(line, -b[1]/W[1])    
+#     plt.xlabel('Digito')
+#     plt.ylabel('Segmentos')
+#     plt.title('Numeros pares')
+#     plt.show()
 
 
 # Imprimiendo valores de prueba
@@ -194,4 +194,4 @@ for epoca in range(200 + 1):
 print('------------------------------ FIN DE ENTRENAMIENTO --------------------------------')
 imprimirValores()
 comprobacion()
-graficar()
+# graficar()
