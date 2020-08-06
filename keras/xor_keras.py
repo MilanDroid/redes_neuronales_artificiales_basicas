@@ -16,8 +16,8 @@
 
 # Project version
 __version__ = "0.0.1"
-
 import numpy as np
+
 from keras.models import Sequential
 from keras.layers.core import Dense
 
