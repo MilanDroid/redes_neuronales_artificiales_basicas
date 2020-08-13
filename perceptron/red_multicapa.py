@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 def sigmoid(x):
     return 1.0/(1.0 + np.exp(-x))
@@ -115,16 +116,16 @@ for e in X:
     print("X:",e,"y:",y[index],"Network:",nn.predict(e))
     index=index+1
 
-# deltas = nn.get_deltas()
-# valores=[]
-# index=0
-# for arreglo in deltas:
-#     valores.append(arreglo[1][0] + arreglo[1][1])
-#     index=index+1
+deltas = nn.get_deltas()
+valores=[]
+index=0
+for arreglo in deltas:
+    valores.append(arreglo[1][0] + arreglo[1][1])
+    index=index+1
  
-# plt.plot(range(len(valores)), valores, color='b')
-# plt.ylim([0, 1])
-# plt.ylabel('Cost')
-# plt.xlabel('Epochs')
-# plt.tight_layout()
-# plt.show()
+plt.plot(range(len(valores)), valores, color='b')
+plt.ylim([0, 1])
+plt.ylabel('Cost')
+plt.xlabel('Epochs')
+plt.tight_layout()
+plt.show()
